@@ -27,9 +27,11 @@ RUN apk --update --no-cache add \
     curl \
     ffmpeg \
     imagemagick \
+    gcompat \
     ghostscript \
     libsmbclient \
     libxml2 \
+    nano \
     nginx \
     openssl \
     php8 \
