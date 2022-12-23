@@ -1,3 +1,11 @@
+<h1>Fork of <a href="https://github.com/crazy-max/docker-nextcloud">crazymax's Nextcloud</a> with updated nginx.conf (according to Nextcloud docs) and some fixes I need for my NC instance.</h1>
+
+Currently implemented fixes:
+- [Viewer in public albums is broken](https://github.com/nextcloud/photos/issues/1452)
+
+Original README below:
+___
+
 <p align="center"><a href="https://github.com/crazy-max/docker-nextcloud" target="_blank"><img height="128" src="https://raw.githubusercontent.com/crazy-max/docker-nextcloud/master/.github/docker-nextcloud.jpg"></a></p>
 
 <p align="center">
