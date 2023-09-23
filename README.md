@@ -84,10 +84,10 @@ docker buildx bake image-all
 
 ## Image
 
-| Registry                                                                                         | Image                           |
-|--------------------------------------------------------------------------------------------------|---------------------------------|
-| [Docker Hub](https://hub.docker.com/r/crazymax/nextcloud/)                                            | `crazymax/nextcloud`                 |
-| [GitHub Container Registry](https://github.com/users/crazy-max/packages/container/package/nextcloud)  | `ghcr.io/crazy-max/nextcloud`        |
+| Registry                                                                                             | Image                         |
+|------------------------------------------------------------------------------------------------------|-------------------------------|
+| [Docker Hub](https://hub.docker.com/r/crazymax/nextcloud/)                                           | `crazymax/nextcloud`          |
+| [GitHub Container Registry](https://github.com/users/crazy-max/packages/container/package/nextcloud) | `ghcr.io/crazy-max/nextcloud` |
 
 Following platforms for this image are available:
 
@@ -132,26 +132,36 @@ Image: crazymax/nextcloud:latest
 * `DB_USER`: Username for database (default `nextcloud`)
 * `DB_PASSWORD`: Password for database user
 * `DB_HOST`: Database host (default `db`)
+* `DB_TIMEOUT`: Time in seconds after which we stop trying to reach the database server. Only used for `mysql` and `pgsql` db type (default `60`)
 
-> 💡 `DB_PASSWORD_FILE` can be used to fill in the value from a file, especially for Docker's secrets feature.
+> **Note**
+> 
+> `DB_PASSWORD_FILE` can be used to fill in the value from a file, especially
+> for Docker's secrets feature.
 
 ### Cron
 
-> :warning: Only used if you enable and run a [sidecar cron container](#cron-sidecar)
+> **Warning**
+> 
+> Only used if you enable and run a [sidecar cron container](#cron-sidecar)
 
 * `SIDECAR_CRON`: Set to `1` to enable sidecar cron mode (default `0`)
 * `CRON_PERIOD`: Periodically execute Nextcloud [cron](https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/background_jobs_configuration.html#cron) (eg. `*/5 * * * *`)
 
 ### Previews generator
 
-> :warning: Only used if you enable and run a [sidecar previews generator container](#previews-generator-sidecar)
+> **Warning**
+> 
+> Only used if you enable and run a [sidecar previews generator container](#previews-generator-sidecar)
 
 * `SIDECAR_PREVIEWGEN`: Set to `1` to enable sidecar previews generator mode (default `0`)
 * `PREVIEWGEN_PERIOD`: Periodically execute pre-generation of previews (eg. `0 * * * *`)
 
 ### News Updater
 
-> :warning: Only used if you enable and run a [sidecar news updater container](#nextcloud-news-updater)
+> **Warning**
+> 
+> Only used if you enable and run a [sidecar news updater container](#nextcloud-news-updater)
 
 * `SIDECAR_NEWSUPDATER`: Set to `1` to enable sidecar news updater mode (default `0`)
 * `NC_NEWSUPDATER_THREADS`: How many feeds should be fetched in parallel (default `10`)
@@ -163,7 +173,11 @@ Image: crazymax/nextcloud:latest
 
 * `/data`: Contains config, data folders, installed user apps (not core ones), session, themes, tmp folders
 
-> :warning: Note that the volume should be owned by the user/group with the specified `PUID` and `PGID`. If you don't give the volume correct permissions, the container may not start.
+> **Warning**
+> 
+> Note that the volume should be owned by the user/group with the specified
+> `PUID` and `PGID`. If you don't give the volume correct permissions, the
+> container may not start.
 
 ## Ports
 
@@ -173,13 +187,14 @@ Image: crazymax/nextcloud:latest
 
 ### Docker Compose
 
-Docker compose is the recommended way to run this image. Copy the content of folder [examples/compose](examples/compose)
-in `/var/nextcloud/` on your host for example. Edit the compose and env files with your preferences and run the
+Docker compose is the recommended way to run this image. Copy the content of
+folder [examples/compose](examples/compose) in `/var/nextcloud/` on your host
+for example. Edit the compose and env files with your preferences and run the
 following commands:
 
 ```bash
-docker-compose up -d
-docker-compose logs -f
+docker compose up -d
+docker compose logs -f
 ```
 
 ### Command line
@@ -194,34 +209,37 @@ docker run -d -p 8000:8000 --name nextcloud \
 
 ## Upgrade
 
-To upgrade to the latest version of Nextcloud, pull the newer image and launch the container. Nextcloud will upgrade
-automatically:
+To upgrade to the latest version of Nextcloud, pull the newer image and launch
+the container. Nextcloud will upgrade automatically:
 
 ```bash
-docker-compose pull
-docker-compose up -d
+docker compose pull
+docker compose up -d
 ```
 
 ## Notes
 
 ### First installation
 
-If you run the container for the first time, the installation will be automatic using the `DB_*` environment variables.<br />
-Then open your browser to configure your admin account.
+If you run the container for the first time, the installation will be automatic
+using the `DB_*` environment variables. Then open your browser to configure
+your admin account.
 
 ### OCC command
 
 If you want to use the [occ command](https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/occ_command.html)
-to perform common server operations like manage users, encryption, passwords, LDAP setting, and more, type:
+to perform common server operations like manage users, encryption, passwords,
+LDAP setting, and more, type:
 
 ```bash
-docker-compose exec nextcloud occ
+docker compose exec nextcloud occ
 ```
 
 ### Cron sidecar
 
-If you want to enable the cronjob, you have to run a "sidecar" container (see cron service in
-[docker-compose.yml](examples/compose/docker-compose.yml) example) or run a simple container like this:
+If you want to enable the cronjob, you have to run a "sidecar" container (see
+cron service in [compose.yml](examples/compose/compose.yml) example) or run a
+simple container like this:
 
 ```bash
 docker run -d --name nextcloud_cron \
@@ -239,7 +257,7 @@ And do not forget to choose **Cron** as background jobs:
 ### Previews generator sidecar
 
 To execute pre-generation of previews through the [Preview Generator](https://github.com/rullzer/previewgenerator)
-plugin, you have to run a "sidecar" container (see cron service in [docker-compose.yml](examples/compose/docker-compose.yml)
+plugin, you have to run a "sidecar" container (see cron service in [compose.yml](examples/compose/compose.yml)
 example) or run a simple container like this:
 
 ```bash
@@ -253,9 +271,10 @@ docker run -d --name nextcloud_previewgen \
 
 ### Nextcloud News Updater
 
-If you want to enable the [Nextcloud News Updater](https://github.com/nextcloud/news-updater), you have to run a
-"sidecar" container (see news_updater service in [docker-compose.yml](examples/compose/docker-compose.yml) example)
-or run a simple container like this:
+If you want to enable the [Nextcloud News Updater](https://github.com/nextcloud/news-updater),
+you have to run a "sidecar" container (see news_updater service in
+[compose.yml](examples/compose/compose.yml) example) or run a simple container
+like this:
 
 ```bash
 docker run -d --name nextcloud_news_updater \
@@ -275,15 +294,15 @@ And do not forget to disable **Use system cron for updates** in news settings:
 
 ### Email server
 
-You can use our SMTP relay `msmtpd` service published on port `2500` and declared in our
-[`docker-compose.yml`](examples/compose/docker-compose.yml):
+You can use our SMTP relay `msmtpd` service published on port `2500` and
+declared in our [`compose.yml`](examples/compose/compose.yml):
 
 ![Email server config](.github/email-server-config.png)
 
 ### Redis cache
 
-Redis is recommended, alongside APCu to make Nextcloud faster.
-If you want to enable Redis, deploy a redis container (see [docker-compose file](examples/compose/docker-compose.yml))
+Redis is recommended, alongside APCu to make Nextcloud faster. If you want to
+enable Redis, deploy a redis container (see [compose file](examples/compose/compose.yml))
 and add this to your `config.php`:
 
 ```
@@ -298,9 +317,10 @@ and add this to your `config.php`:
 
 ### Running in a subdir
 
-If you want to access your Nextcloud installation in a subdir (like `/nextcloud`), you have to set the `SUBDIR`
-environment variable and also add `PathPrefixStrip:/nextcloud` to your frontend rule if you use Traefik.
-Do not forget to remove `includeSubDomains` option in `HSTS_HEADER` if used.
+If you want to access your Nextcloud installation in a subdir (like
+`/nextcloud`), you have to set the `SUBDIR` environment variable and also add
+`PathPrefixStrip:/nextcloud` to your frontend rule if you use Traefik. Do not
+forget to remove `includeSubDomains` option in `HSTS_HEADER` if used.
 
 ## Contributing
 

@@ -1,5 +1,29 @@
 # Changelog
 
+## 27.0.2-r0 / 26.0.5-r0 / 25.0.10-r0 (2023/08/30)
+
+* Nextcloud 27.0.2, 26.0.5, 25.0.10 (#135)
+* Wait for database to be ready (#133)
+
+## 27.0.1-r1 / 26.0.4-r1 / 25.0.9-r1 (2023/07/22)
+
+* smbclient conf not needed anymore (#131)
+
+## 27.0.1-r0 / 26.0.4-r0 / 25.0.9-r0 (2023/07/22)
+
+* Nextcloud 25.0.9, 26.0.4, 27.0.1 (#130)
+* Install PECL smbclient from Alpine pkg (#128)
+
+## 27.0.0-r0 / 26.0.2-r0 / 25.0.7-r0 (2023/06/18)
+
+* Nextcloud 25.0.7, 26.0.2, 27.0.0 (#124)
+* Alpine Linux 3.18 (#124)
+* Update `nginx.conf` to support wasm & tflite file for `talk` (#123)
+
+## 26.0.1-r0 / 25.0.6-r0 / 24.0.12-r0 (2023/05/03)
+
+* Nextcloud 24.0.12, 25.0.6, 26.0.1 (#122)
+
 ## 26.0.0-r1 (2023/04/10)
 
 * Missing `sysvsem` PHP extension (#119)
@@ -283,10 +307,10 @@
 > :warning: **UPGRADE NOTES**
 > As the Docker container now runs as a non-root user, you have to first stop the container and change permissions to `data` volume:
 > ```
-> docker-compose stop
+> docker compose stop
 > chown -R ${PUID}:${PGID} data/
-> docker-compose pull
-> docker-compose up -d
+> docker compose pull
+> docker compose up -d
 > ```
 
 ## 17.0.1-RC2 / 16.0.6-RC2 / 15.0.13-RC2 (2019/11/11)
@@ -387,7 +411,7 @@
 
 > :warning: **UPGRADE NOTES**
 > Sidecar cron container is now handled with `SIDECAR_CRON` environment variable.
-> See docker-compose example and README for more info.
+> See docker compose example and README for more info.
 
 ## 15.0.5-RC1 / 14.0.8-RC1 / 13.0.12-RC1 (2019/02/27)
 
@@ -496,9 +520,9 @@
 ## 13.0.0-RC2 / 12.0.5-RC3 (2018/02/27)
 
 * Permissions fix more efficient
-* Cron now only available as a "sidecar" container (see docker-compose)
+* Cron now only available as a "sidecar" container (see docker compose)
 * Use busybox cron
-* Replace Nginx + Let's Encrypt with Traefik (see docker-compose)
+* Replace Nginx + Let's Encrypt with Traefik (see docker compose)
 * Disable auto restart and retries of "supervisored" programs (Docker Way)
 * Rename UID and GID env vars to PUID and PGID
 * Remove SITE_DOMAIN env var
